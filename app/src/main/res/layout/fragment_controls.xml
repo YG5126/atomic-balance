@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#121212"
+    android:padding="16dp">
+
+    <!-- Стержни регулирования -->
+    <TextView
+        android:id="@+id/labelRods"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Стержни регулирования"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/sliderRods"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:valueFrom="0"
+        android:valueTo="100"
+        android:value="50"
+        android:stepSize="1"
+        app:thumbColor="#00E5FF"
+        app:trackColorActive="#00E5FF"
+        app:trackColorInactive="#555555"
+        app:layout_constraintTop_toBottomOf="@id/labelRods"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/tvRods"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Стержни: 50%"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/sliderRods"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="4dp" />
+
+    <!-- Насосы охлаждения -->
+    <TextView
+        android:id="@+id/labelPumps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Насосы охлаждения"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tvRods"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="24dp" />
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/sliderPumps"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:valueFrom="0"
+        android:valueTo="100"
+        android:value="50"
+        android:stepSize="1"
+        app:thumbColor="#00E5FF"
+        app:trackColorActive="#00E5FF"
+        app:trackColorInactive="#555555"
+        app:layout_constraintTop_toBottomOf="@id/labelPumps"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/tvPumps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Насосы: 50%"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/sliderPumps"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="4dp" />
+
+    <!-- Парогенераторы -->
+    <TextView
+        android:id="@+id/labelSteam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Мощность парогенераторов"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tvPumps"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="24dp" />
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/sliderSteam"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:valueFrom="0"
+        android:valueTo="100"
+        android:value="50"
+        android:stepSize="1"
+        app:thumbColor="#00E5FF"
+        app:trackColorActive="#00E5FF"
+        app:trackColorInactive="#555555"
+        app:layout_constraintTop_toBottomOf="@id/labelSteam"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/tvSteam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Парогенераторы: 50%"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/sliderSteam"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="4dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

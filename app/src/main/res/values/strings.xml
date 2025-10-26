@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Atomic Balance</string>
+    <string name="drawer_dashboard">Главный пульт</string>
+    <string name="drawer_controls">Панель управления</string>
+    <string name="drawer_tutorial">Обучение</string>
+    <string name="start">Старт</string>
+    <string name="pause">Пауза</string>
+    <string name="rods">Стержни: %1$d%%</string>
+    <string name="pumps">Насосы: %1$d%%</string>
+    <string name="steam_power">Парогенераторы: %1$d%%</string>
+    <string name="fact_rods">Стержни поглощают нейтроны, снижая k-eff</string>
+    <string name="fact_pumps">Насосы охлаждают реактор, снижая температуру</string>
+    <string name="fact_steam">Парогенераторы преобразуют тепло в энергию</string>
+</resources>
