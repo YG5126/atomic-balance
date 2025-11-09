@@ -41,10 +41,20 @@ class DashboardFragment : Fragment() {
 
         sharedPrefs = requireContext().getSharedPreferences("reactor_params", Context.MODE_PRIVATE)
 
+        // 1. Инициализация стартовых значений, если SharedPreferences пусты
+        if (!sharedPrefs.contains("rods")) {
+            sharedPrefs.edit()
+                .putFloat("rods", 50f)          // среднее выдвижение стержней
+                .putFloat("pumps", 50f)         // средняя мощность насосов
+                .putFloat("steam_power", 100f)   // средний отбор пара
+                .apply()
+        }
+
         setupChart()
         setupButtons()
-        updateParameters() // Начальный апдейт
+        updateParameters() // Начальный апдейт после установки стартовых значений
     }
+
 
     private fun setupChart() {
         binding.neutronChart.apply {
@@ -96,46 +106,55 @@ class DashboardFragment : Fragment() {
     }
 
     private fun updateParameters() {
-        // Чтение из SharedPreferences (от Студента 2)
-        val rods = sharedPrefs.getFloat("rods", 50f) // 0-100%
+        val rods = sharedPrefs.getFloat("rods", 50f)
         val pumps = sharedPrefs.getFloat("pumps", 50f)
         val steamPower = sharedPrefs.getFloat("steam_power", 50f)
 
-        // Простая симуляция PWR (на основе поисковых данных)
-        val kEff = 1.2f - (rods / 100f * 0.3f) + Random.nextFloat() * 0.02f - 0.01f // Шум для реализма
-        val power = (kEff * (steamPower / 100f) * 100f).coerceIn(0f, 100f) // %
-        val temperature = 280f + (power / 100f * 40f) + ((100f - pumps) / 100f * 20f) // 280-320°C
-        val pressure = 140f + ((temperature - 280f) / 40f * 20f) // 140-160 бар
+        // 1. k-eff на основе выдвижения стержней
+        val rodEffect = 0.3f * (rods / 100f)
+        val kEff = 1.05f - rodEffect + Random.nextFloat() * 0.01f - 0.005f
 
-        // ИСПРАВЛЕНО: явное приведение к Float
-        val neutronFlux = (power * 1e12).toFloat() // Примерная плотность нейтронов (flux ~ power)
+        // 2. Мощность реактора
+        val pumpEffect = 0.5f * (pumps / 100f) // влияние циркуляции на температуру
+        val power = (kEff * (steamPower / 100f) * 100f).coerceIn(0f, 100f)
 
-        // Обновление показателей
+        // 3. Температура активной зоны
+        val tempCore = 280f + (power / 100f * 100f) * (1f - pumpEffect)
+
+        // 4. Давление вторичного контура
+        val steamLoad = steamPower / 100f
+        val pressure = 140f + (power / 100f * 20f) * (1f - 0.3f * steamLoad)
+
+        // 5. Нейтронный поток
+        val neutronFlux = power * 1e12f * (1f + Random.nextFloat() * 0.02f - 0.01f)
+
+        // 6. Обновление UI
         binding.tvKEff.text = "k-eff: %.3f".format(kEff)
-        binding.tvKEff.setTextColor(when {
-            kEff < 1f -> 0xFFFF0000.toInt() // Красный
-            kEff == 1f -> 0xFF00FF00.toInt() // Зеленый
-            else -> 0xFF0000FF.toInt() // Синий
-        })
-
+        binding.tvKEff.setTextColor(
+            when {
+                kEff < 1f -> 0xFFFF0000.toInt()
+                kEff == 1f -> 0xFF00FF00.toInt()
+                else -> 0xFF0000FF.toInt()
+            }
+        )
         binding.tvPower.text = "Мощность: %.1f%%".format(power)
-        binding.tvTemperature.text = "Температура: %.1f°C".format(temperature)
+        binding.tvTemperature.text = "Температура: %.1f°C".format(tempCore)
         binding.tvPressure.text = "Давление: %.1f бар".format(pressure)
 
-        // Обновление графика нейтронов
+        // 7. Обновление графика нейтронного потока
         fluxEntries.add(Entry(time, neutronFlux))
-        if (fluxEntries.size > 20) fluxEntries.removeAt(0) // Ограничение
-        val dataSet = LineDataSet(fluxEntries, "Плотность нейтронов")
+        if (fluxEntries.size > 20) fluxEntries.removeAt(0)
+        val dataSet = LineDataSet(fluxEntries, "Нейтронный поток")
         dataSet.color = 0xFF00E5FF.toInt()
-        dataSet.setDrawCircles(false) // Убираем точки для производительности
+        dataSet.setDrawCircles(false)
         dataSet.lineWidth = 2f
         binding.neutronChart.data = LineData(dataSet)
         binding.neutronChart.invalidate()
 
-        time += 2f // Каждые 2 секунды
-
-        // Анимация нейтронов в NeutronView (обновляется автоматически)
+        time += 2f
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
