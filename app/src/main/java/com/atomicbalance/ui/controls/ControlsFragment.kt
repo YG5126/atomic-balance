@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.atomicbalance.databinding.FragmentControlsBinding
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.core.content.edit
 
 class ControlsFragment : Fragment() {
 
@@ -38,8 +38,6 @@ class ControlsFragment : Fragment() {
             val iv = value.toInt()
             binding.tvRods.text = getString(com.atomicbalance.R.string.rods, iv)
             saveValue("rods", value)
-            // подсказка
-            showTooltip("Стержни", "Выдвижение стержней: $iv% — влияет непосредственно на реактивность.")
         }
 
         // Насосы 1-го контура (primary)
@@ -47,7 +45,6 @@ class ControlsFragment : Fragment() {
             val iv = value.toInt()
             binding.tvPrimaryPumps.text = "Насосы 1-го контура: $iv%"
             saveValue("primary_pumps", value)
-            showTooltip("Насосы 1-го контура", "Увеличение мощности насоса повышает циркуляцию и отвод тепла из активной зоны.")
         }
 
         // Насосы 2-го контура (secondary)
@@ -55,7 +52,6 @@ class ControlsFragment : Fragment() {
             val iv = value.toInt()
             binding.tvSecondaryPumps.text = "Насосы 2-го контура: $iv%"
             saveValue("secondary_pumps", value)
-            showTooltip("Насосы 2-го контура", "Вторичный контур управляет отбором пара и теплообменом с турбиной/сбросом.")
         }
 
         // Steam dump — доля пара, уводимого в байпас/сброс (0..100)
@@ -63,7 +59,6 @@ class ControlsFragment : Fragment() {
             val iv = value.toInt()
             binding.tvSteamDump.text = "Сброс пара: $iv%"
             saveValue("steam_dump", value)
-            showTooltip("Сброс пара", "Чем выше сброс, тем меньше пара идёт на турбину — меньше отбора мощности, давление меняется.")
         }
     }
 
@@ -85,15 +80,7 @@ class ControlsFragment : Fragment() {
     }
 
     private fun saveValue(key: String, value: Float) {
-        sharedPrefs.edit().putFloat(key, value).apply()
-    }
-
-    private fun showTooltip(title: String, message: String) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(title)
-            .setMessage(message)
-            .setPositiveButton("OK", null)
-            .show()
+        sharedPrefs.edit { putFloat(key, value) }
     }
 
     override fun onDestroyView() {

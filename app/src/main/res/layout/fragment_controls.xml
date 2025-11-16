@@ -1,130 +1,461 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#121212"
-    android:padding="16dp">
+    android:background="#0F172A"
+    android:padding="16dp"
+    android:fillViewport="true">
 
-    <!-- Стержни регулирования -->
-    <TextView
-        android:id="@+id/labelRods"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Стержни регулирования"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp" />
+        android:orientation="vertical">
 
-    <com.google.android.material.slider.Slider
-        android:id="@+id/sliderRods"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:valueFrom="0"
-        android:valueTo="100"
-        android:value="50"
-        android:stepSize="1"
-        app:thumbColor="#00E5FF"
-        app:trackColorActive="#00E5FF"
-        app:trackColorInactive="#555555"
-        app:layout_constraintTop_toBottomOf="@id/labelRods"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp" />
+        <!-- Стержни регулирования -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="#1E293B"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:strokeColor="#00E5FF"
+            app:strokeWidth="2dp">
 
-    <TextView
-        android:id="@+id/tvRods"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Стержни: 50%"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/sliderRods"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="4dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-    <!-- Насосы охлаждения -->
-    <TextView
-        android:id="@+id/labelPumps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Насосы охлаждения"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/tvRods"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="24dp" />
+                <!-- Заголовок карточки -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
 
-    <com.google.android.material.slider.Slider
-        android:id="@+id/sliderPumps"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:valueFrom="0"
-        android:valueTo="100"
-        android:value="50"
-        android:stepSize="1"
-        app:thumbColor="#00E5FF"
-        app:trackColorActive="#00E5FF"
-        app:trackColorInactive="#555555"
-        app:layout_constraintTop_toBottomOf="@id/labelPumps"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="СТЕРЖНИ РЕГУЛИРОВАНИЯ"
+                        android:textColor="#00E5FF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvPumps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Насосы: 50%"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/sliderPumps"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="4dp" />
+                <!-- Слайдер с метками -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-    <!-- Парогенераторы -->
-    <TextView
-        android:id="@+id/labelSteam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Мощность парогенераторов"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/tvPumps"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="24dp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
 
-    <com.google.android.material.slider.Slider
-        android:id="@+id/sliderSteam"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:valueFrom="0"
-        android:valueTo="100"
-        android:value="50"
-        android:stepSize="1"
-        app:thumbColor="#00E5FF"
-        app:trackColorActive="#00E5FF"
-        app:trackColorInactive="#555555"
-        app:layout_constraintTop_toBottomOf="@id/labelSteam"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Вставлено"
+                            android:textColor="#9CA3AF"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tvSteam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Парогенераторы: 50%"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/sliderSteam"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="4dp" />
+                        <TextView
+                            android:id="@+id/tvRods"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Стержни: 50%"
+                            android:textColor="#00E5FF"
+                            android:textSize="22sp"
+                            android:textStyle="bold"
+                            android:fontFamily="monospace" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Извлечено"
+                            android:textColor="#9CA3AF"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_marginStart="16dp" />
+                    </LinearLayout>
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/sliderRods"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:valueFrom="0"
+                        android:valueTo="100"
+                        android:value="50"
+                        android:stepSize="1"
+                        app:thumbColor="#00E5FF"
+                        app:trackColorActive="#00E5FF"
+                        app:trackColorInactive="#334155"
+                        app:thumbRadius="16dp"
+                        app:trackHeight="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="4dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0%"
+                            android:textColor="#6B7280"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="100%"
+                            android:textColor="#6B7280"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Насосы 1-го контура -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="#1E293B"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:strokeColor="#00E5FF"
+            app:strokeWidth="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Заголовок карточки -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="КОНТУР 1 (ПЕРВИЧНЫЙ)"
+                        android:textColor="#00E5FF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Слайдер с метками -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Насос 1-го контура"
+                            android:textColor="#9CA3AF"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvPrimaryPumps"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Насосы 1-го контура: 50%"
+                            android:textColor="#00E5FF"
+                            android:textSize="22sp"
+                            android:textStyle="bold"
+                            android:fontFamily="monospace" />
+                    </LinearLayout>
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/sliderPrimaryPumps"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:valueFrom="0"
+                        android:valueTo="100"
+                        android:value="50"
+                        android:stepSize="1"
+                        app:thumbColor="#00E5FF"
+                        app:trackColorActive="#00E5FF"
+                        app:trackColorInactive="#334155"
+                        app:thumbRadius="16dp"
+                        app:trackHeight="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="4dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0%"
+                            android:textColor="#6B7280"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="100%"
+                            android:textColor="#6B7280"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Насосы 2-го контура -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="#1E293B"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:strokeColor="#00E5FF"
+            app:strokeWidth="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Заголовок карточки -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="КОНТУР 2 (ВТОРИЧНЫЙ)"
+                        android:textColor="#00E5FF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Слайдер с метками -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Насос 2-го контура"
+                            android:textColor="#9CA3AF"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvSecondaryPumps"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Насосы 2-го контура: 50%"
+                            android:textColor="#00E5FF"
+                            android:textSize="22sp"
+                            android:textStyle="bold"
+                            android:fontFamily="monospace" />
+                    </LinearLayout>
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/sliderSecondaryPumps"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:valueFrom="0"
+                        android:valueTo="100"
+                        android:value="50"
+                        android:stepSize="1"
+                        app:thumbColor="#00E5FF"
+                        app:trackColorActive="#00E5FF"
+                        app:trackColorInactive="#334155"
+                        app:thumbRadius="16dp"
+                        app:trackHeight="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="4dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0%"
+                            android:textColor="#6B7280"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="100%"
+                            android:textColor="#6B7280"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Сброс пара (Steam Dump) -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="#1E293B"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:strokeColor="#00E5FF"
+            app:strokeWidth="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Заголовок карточки -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="СБРОС ПАРА"
+                        android:textColor="#00E5FF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Слайдер с метками -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Клапан сброса"
+                            android:textColor="#9CA3AF"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvSteamDump"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Сброс пара: 0%"
+                            android:textColor="#00E5FF"
+                            android:textSize="22sp"
+                            android:textStyle="bold"
+                            android:fontFamily="monospace" />
+                    </LinearLayout>
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/sliderSteamDump"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:valueFrom="0"
+                        android:valueTo="100"
+                        android:value="0"
+                        android:stepSize="1"
+                        app:thumbColor="#00E5FF"
+                        app:trackColorActive="#00E5FF"
+                        app:trackColorInactive="#334155"
+                        app:thumbRadius="16dp"
+                        app:trackHeight="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="4dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0%"
+                            android:textColor="#6B7280"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="100%"
+                            android:textColor="#6B7280"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</ScrollView>

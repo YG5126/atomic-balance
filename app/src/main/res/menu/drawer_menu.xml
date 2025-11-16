@@ -5,10 +5,6 @@
         android:title="@string/drawer_dashboard"
         android:icon="@android:drawable/ic_menu_gallery" />
     <item
-        android:id="@+id/controlsFragment"
-        android:title="@string/drawer_controls"
-        android:icon="@android:drawable/ic_menu_manage" />
-    <item
         android:id="@+id/tutorialFragment"
         android:title="@string/drawer_tutorial"
         android:icon="@android:drawable/ic_menu_info_details" />

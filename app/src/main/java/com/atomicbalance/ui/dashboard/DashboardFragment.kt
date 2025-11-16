@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,54 +54,161 @@ class DashboardFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
-        return binding.root
+        Log.d("DashboardFragment", "onCreateView called")
+        try {
+            _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+            Log.d("DashboardFragment", "Binding inflated successfully")
+            return binding.root
+        } catch (e: Exception) {
+            Log.e("DashboardFragment", "Error inflating view", e)
+            throw e
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sharedPrefs = requireContext().getSharedPreferences("reactor_params", Context.MODE_PRIVATE)
+        Log.d("DashboardFragment", "onViewCreated called")
+        try {
+            sharedPrefs = requireContext().getSharedPreferences("reactor_params", Context.MODE_PRIVATE)
+            Log.d("DashboardFragment", "SharedPreferences initialized")
 
-        // Инициализация стартовых значений (если ещё нет)
-        if (!sharedPrefs.contains("rods")) {
-            sharedPrefs.edit()
-                .putFloat("rods", 50f)
-                .putFloat("primary_pumps", 50f)
-                .putFloat("secondary_pumps", 50f)
-                .putFloat("steam_dump", 0f)
-                .apply()
-        }
+            // Инициализация стартовых значений (если ещё нет)
+            if (!sharedPrefs.contains("rods")) {
+                sharedPrefs.edit()
+                    .putFloat("rods", 50f)
+                    .putFloat("primary_pumps", 50f)
+                    .putFloat("secondary_pumps", 50f)
+                    .putFloat("steam_dump", 0f)
+                    .apply()
+                Log.d("DashboardFragment", "Initial values saved")
+            }
 
         setupChart()
+        Log.d("DashboardFragment", "Chart setup completed")
         setupButtons()
+        Log.d("DashboardFragment", "Buttons setup completed")
+        setupControls()
+        Log.d("DashboardFragment", "Controls setup completed")
         // начальные вычисления
         updateParameters()
+        Log.d("DashboardFragment", "Initial parameters updated")
+        } catch (e: Exception) {
+            Log.e("DashboardFragment", "Error in onViewCreated", e)
+            e.printStackTrace()
+        }
     }
 
     private fun setupChart() {
-        binding.neutronChart.apply {
-            description.isEnabled = false
-            xAxis.isEnabled = true
-            axisLeft.isEnabled = true
-            axisRight.isEnabled = false
-            legend.isEnabled = true
-            setTouchEnabled(true)
-            invalidate()
+        try {
+            binding.neutronChart.apply {
+                description.isEnabled = false
+                xAxis.isEnabled = true
+                axisLeft.isEnabled = true
+                axisRight.isEnabled = false
+                legend.isEnabled = true
+                setTouchEnabled(true)
+                
+                // Настройка осей
+                xAxis.textColor = 0xFF00E5FF.toInt()
+                axisLeft.textColor = 0xFF00E5FF.toInt()
+                legend.textColor = 0xFF00E5FF.toInt()
+                
+                // Настройка сетки
+                xAxis.gridColor = 0x4000E5FF.toInt()
+                axisLeft.gridColor = 0x4000E5FF.toInt()
+                
+                invalidate()
+            }
+            Log.d("DashboardFragment", "Chart configured successfully")
+        } catch (e: Exception) {
+            Log.e("DashboardFragment", "Error setting up chart", e)
+            e.printStackTrace()
         }
     }
 
     private fun setupButtons() {
-        binding.btnStartPause.setOnClickListener {
-            isSimulationRunning = !isSimulationRunning
-            if (isSimulationRunning) {
-                binding.btnStartPause.text = "СТОП"
-                binding.tvStatusBadge.text = "АКТИВЕН"
-                startSimulation()
-            } else {
-                binding.btnStartPause.text = "ПУСК"
-                binding.tvStatusBadge.text = "ОСТАНОВЛЕН"
-                stopSimulation()
+        try {
+            binding.btnStartPause.setOnClickListener {
+                isSimulationRunning = !isSimulationRunning
+                if (isSimulationRunning) {
+                    binding.btnStartPause.text = "СТОП"
+                    binding.tvStatusBadge.text = "АКТИВЕН"
+                    binding.tvStatusBadge.setBackgroundColor(0xFF16A34A.toInt())
+                    startSimulation()
+                } else {
+                    binding.btnStartPause.text = "ПУСК"
+                    binding.tvStatusBadge.text = "ОСТАНОВЛЕН"
+                    binding.tvStatusBadge.setBackgroundColor(0xFF6B7280.toInt())
+                    stopSimulation()
+                }
             }
+            Log.d("DashboardFragment", "Button click listener set")
+        } catch (e: Exception) {
+            Log.e("DashboardFragment", "Error setting up buttons", e)
+            e.printStackTrace()
+        }
+    }
+
+    private fun setupControls() {
+        try {
+            // Управление стержнями
+            binding.sliderRodsDashboard.addOnChangeListener { _, value, _ ->
+                val iv = value.toInt()
+                binding.tvRodsDashboard.text = "$iv%"
+                sharedPrefs.edit().putFloat("rods", value).apply()
+            }
+
+            // Насосы 1-го контура
+            binding.sliderPrimaryPumpsDashboard.addOnChangeListener { _, value, _ ->
+                val iv = value.toInt()
+                binding.tvPrimaryPumpsDashboard.text = "$iv%"
+                sharedPrefs.edit().putFloat("primary_pumps", value).apply()
+            }
+
+            // Насосы 2-го контура
+            binding.sliderSecondaryPumpsDashboard.addOnChangeListener { _, value, _ ->
+                val iv = value.toInt()
+                binding.tvSecondaryPumpsDashboard.text = "$iv%"
+                sharedPrefs.edit().putFloat("secondary_pumps", value).apply()
+            }
+
+            // Сброс пара
+            binding.sliderSteamDumpDashboard.addOnChangeListener { _, value, _ ->
+                val iv = value.toInt()
+                binding.tvSteamDumpDashboard.text = "$iv%"
+                sharedPrefs.edit().putFloat("steam_dump", value).apply()
+            }
+
+            // Загрузка начальных значений
+            loadControlValues()
+            Log.d("DashboardFragment", "Control sliders configured")
+        } catch (e: Exception) {
+            Log.e("DashboardFragment", "Error setting up controls", e)
+            e.printStackTrace()
+        }
+    }
+
+    private fun loadControlValues() {
+        try {
+            val rods = sharedPrefs.getFloat("rods", 50f)
+            val primary = sharedPrefs.getFloat("primary_pumps", 50f)
+            val secondary = sharedPrefs.getFloat("secondary_pumps", 50f)
+            val dump = sharedPrefs.getFloat("steam_dump", 0f)
+
+            binding.sliderRodsDashboard.value = rods
+            binding.tvRodsDashboard.text = "${rods.toInt()}%"
+
+            binding.sliderPrimaryPumpsDashboard.value = primary
+            binding.tvPrimaryPumpsDashboard.text = "${primary.toInt()}%"
+
+            binding.sliderSecondaryPumpsDashboard.value = secondary
+            binding.tvSecondaryPumpsDashboard.text = "${secondary.toInt()}%"
+
+            binding.sliderSteamDumpDashboard.value = dump
+            binding.tvSteamDumpDashboard.text = "${dump.toInt()}%"
+        } catch (e: Exception) {
+            Log.e("DashboardFragment", "Error loading control values", e)
+            e.printStackTrace()
         }
     }
 
@@ -183,20 +291,30 @@ class DashboardFragment : Fragment() {
         neutronFlux = (powerPct * 1e10f) * (1f + (Random.nextFloat() - 0.5f) * 0.02f) // шум ±1%
 
         // --- 6. Обновление UI ---
-        binding.tvKEff.text = "rho: %.4f".format(rho)
-        // color: red if negative reactivity (subcritical), green near zero, blue positive
-        binding.tvKEff.setTextColor(
-            when {
-                rho < 0f -> 0xFFFF0000.toInt()
-                rho < 0.001f -> 0xFF00FF00.toInt()
-                else -> 0xFF0000FF.toInt()
+        try {
+            if (_binding == null) {
+                Log.w("DashboardFragment", "Binding is null, skipping UI update")
+                return
             }
-        )
+            
+            binding.tvKEff.text = "rho: %.4f".format(rho)
+            // color: red if negative reactivity (subcritical), green near zero, blue positive
+            binding.tvKEff.setTextColor(
+                when {
+                    rho < 0f -> 0xFFFF0000.toInt()
+                    rho < 0.001f -> 0xFF00FF00.toInt()
+                    else -> 0xFF0000FF.toInt()
+                }
+            )
 
-        binding.tvPower.text = "Мощность: %.1f%%".format(powerPct)
-        binding.tvTemperature.text = "Температура: %.1f°C".format(tempCore)
-        binding.tvPressure.text = "Давление (2-й контур): %.1f бар".format(pressureSecondary)
-        binding.tvNeutronFlux.text = "Нейтронный поток: %.3e".format(neutronFlux)
+            binding.tvPower.text = "Мощность: %.1f%%".format(powerPct)
+            binding.tvTemperature.text = "%.1f".format(tempCore)
+            binding.tvPressure.text = "%.1f".format(pressureSecondary)
+            binding.tvNeutronFlux.text = "%.3e".format(neutronFlux)
+        } catch (e: Exception) {
+            Log.e("DashboardFragment", "Error updating UI", e)
+            e.printStackTrace()
+        }
 
         // --- 7. Обновление графика нейтронного потока ---
         fluxEntries.add(Entry(simTime, neutronFlux))
