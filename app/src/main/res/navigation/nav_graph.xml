@@ -10,11 +10,6 @@
         android:label="@string/drawer_dashboard" />
 
     <fragment
-        android:id="@+id/controlsFragment"
-        android:name="com.atomicbalance.ui.controls.ControlsFragment"
-        android:label="@string/drawer_controls" />
-
-    <fragment
         android:id="@+id/tutorialFragment"
         android:name="com.atomicbalance.ui.tutorial.TutorialFragment"
         android:label="@string/drawer_tutorial" />

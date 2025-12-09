@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.atomicbalance.databinding.FragmentControlsBinding
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.core.content.edit
 
 class ControlsFragment : Fragment() {
 
@@ -33,49 +33,54 @@ class ControlsFragment : Fragment() {
     }
 
     private fun setupSliders() {
+        // Управление стержнями (0..100 % выдвижения; 0 = полностью вставлены (макс отриц реактив), 100 = полностью выдвинуты)
         binding.sliderRods.addOnChangeListener { _, value, _ ->
-            binding.tvRods.text = getString(com.atomicbalance.R.string.rods, value.toInt())
+            val iv = value.toInt()
+            binding.tvRods.text = getString(com.atomicbalance.R.string.rods, iv)
             saveValue("rods", value)
-            showTooltip("Стержни", getString(com.atomicbalance.R.string.fact_rods))
         }
 
-        binding.sliderPumps.addOnChangeListener { _, value, _ ->
-            binding.tvPumps.text = getString(com.atomicbalance.R.string.pumps, value.toInt())
-            saveValue("pumps", value)
-            showTooltip("Насосы", getString(com.atomicbalance.R.string.fact_pumps))
+        // Насосы 1-го контура (primary)
+        binding.sliderPrimaryPumps.addOnChangeListener { _, value, _ ->
+            val iv = value.toInt()
+            binding.tvPrimaryPumps.text = "Насосы 1-го контура: $iv%"
+            saveValue("primary_pumps", value)
         }
 
-        binding.sliderSteam.addOnChangeListener { _, value, _ ->
-            binding.tvSteam.text = getString(com.atomicbalance.R.string.steam_power, value.toInt())
-            saveValue("steam_power", value)
-            showTooltip("Парогенераторы", getString(com.atomicbalance.R.string.fact_steam))
+        // Насосы 2-го контура (secondary)
+        binding.sliderSecondaryPumps.addOnChangeListener { _, value, _ ->
+            val iv = value.toInt()
+            binding.tvSecondaryPumps.text = "Насосы 2-го контура: $iv%"
+            saveValue("secondary_pumps", value)
+        }
+
+        // Steam dump — доля пара, уводимого в байпас/сброс (0..100)
+        binding.sliderSteamDump.addOnChangeListener { _, value, _ ->
+            val iv = value.toInt()
+            binding.tvSteamDump.text = "Сброс пара: $iv%"
+            saveValue("steam_dump", value)
         }
     }
 
     private fun loadValues() {
         val rods = sharedPrefs.getFloat("rods", 50f)
-        val pumps = sharedPrefs.getFloat("pumps", 50f)
-        val steam = sharedPrefs.getFloat("steam_power", 50f)
+        val primary = sharedPrefs.getFloat("primary_pumps", 50f)
+        val secondary = sharedPrefs.getFloat("secondary_pumps", 50f)
+        val dump = sharedPrefs.getFloat("steam_dump", 0f)
 
         binding.sliderRods.value = rods
-        binding.sliderPumps.value = pumps
-        binding.sliderSteam.value = steam
+        binding.sliderPrimaryPumps.value = primary
+        binding.sliderSecondaryPumps.value = secondary
+        binding.sliderSteamDump.value = dump
 
         binding.tvRods.text = getString(com.atomicbalance.R.string.rods, rods.toInt())
-        binding.tvPumps.text = getString(com.atomicbalance.R.string.pumps, pumps.toInt())
-        binding.tvSteam.text = getString(com.atomicbalance.R.string.steam_power, steam.toInt())
+        binding.tvPrimaryPumps.text = "Насосы 1-го контура: ${primary.toInt()}%"
+        binding.tvSecondaryPumps.text = "Насосы 2-го контура: ${secondary.toInt()}%"
+        binding.tvSteamDump.text = "Сброс пара: ${dump.toInt()}%"
     }
 
     private fun saveValue(key: String, value: Float) {
-        sharedPrefs.edit().putFloat(key, value).apply()
-    }
-
-    private fun showTooltip(title: String, message: String) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(title)
-            .setMessage(message)
-            .setPositiveButton("OK", null)
-            .show()
+        sharedPrefs.edit { putFloat(key, value) }
     }
 
     override fun onDestroyView() {

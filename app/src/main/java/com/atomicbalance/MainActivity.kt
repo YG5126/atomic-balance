@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             // Настройка DrawerLayout
             val drawerLayout: DrawerLayout = binding.drawerLayout
             appBarConfiguration = AppBarConfiguration(
-                setOf(R.id.dashboardFragment, R.id.controlsFragment, R.id.tutorialFragment),
+                setOf(R.id.dashboardFragment, R.id.tutorialFragment),
                 drawerLayout
             )
             Log.d("MainActivity", "AppBarConfiguration created")
